@@ -1,0 +1,91 @@
+;; mymusic — panneau de bureau (eww / Wayland)
+;;
+;; Le script panel.py fait tout le calcul et renvoie un JSON déjà mis en forme,
+;; ce fichier ne fait que le disposer.
+
+(defpoll mymusic
+  :interval "30s"
+  :initial `{"ok":false,"error":"chargement…","services":[],"meters":[],"library":null,"playing":[]}`
+  `python3 ~/.config/eww/mymusic/panel.py --json`)
+
+;; --------------------------------------------------------------------------
+;; briques
+;; --------------------------------------------------------------------------
+
+(defwidget service-row [item]
+  (box :class "row" :orientation "h" :space-evenly false
+    (label :class "dot ${item.state}" :text "●")
+    (label :class "row-label" :text {item.label})
+    (box :hexpand true)
+    (label :class "row-detail" :text {item.detail})))
+
+(defwidget meter [item]
+  (box :class "meter" :orientation "v" :space-evenly false
+    (box :orientation "h" :space-evenly false
+      (label :class "meter-label" :text {item.label})
+      (box :hexpand true)
+      (label :class "meter-value" :text {item.value}))
+    (progress :class "gauge ${item.level}"
+              :value {item.percent}
+              :orientation "h")
+    (label :class "meter-detail" :xalign 0 :text {item.detail})))
+
+(defwidget track [item]
+  (box :class "track" :orientation "v" :space-evenly false
+    (label :class "track-title" :xalign 0 :limit-width 30 :text {item.title})
+    (label :class "track-meta" :xalign 0
+           :text "${item.artist} · ${item.user}")))
+
+;; --------------------------------------------------------------------------
+;; panneau
+;; --------------------------------------------------------------------------
+
+(defwidget panel []
+  (box :class "panel" :orientation "v" :space-evenly false
+    (label :class "title" :xalign 0 :text "mymusic")
+
+    (box :class "offline" :orientation "v" :space-evenly false
+         :visible {!mymusic.ok}
+      (label :class "offline-text" :xalign 0 :text {mymusic.error}))
+
+    (box :orientation "v" :space-evenly false :visible {mymusic.ok}
+      (box :class "group" :orientation "v" :space-evenly false
+        (for item in {mymusic.services}
+          (service-row :item item)))
+
+      (box :class "group" :orientation "v" :space-evenly false
+        (for item in {mymusic.meters}
+          (meter :item item)))
+
+      (box :class "group" :orientation "v" :space-evenly false
+           :visible {mymusic.library != null}
+        (label :class "figure" :xalign 0
+               :text "${mymusic.library?.tracks ?: "—"} morceaux")
+        (label :class "figure-meta" :xalign 0
+               :text "${mymusic.library?.albums ?: "—"} albums · ${mymusic.library?.artists ?: "—"} artistes")
+        (label :class "scanning" :xalign 0 :text "analyse en cours"
+               :visible {mymusic.library?.scanning ?: false}))
+
+      (box :class "group" :orientation "v" :space-evenly false
+           :visible {arraylength(mymusic.playing) > 0}
+        (label :class "subtitle" :xalign 0 :text "en écoute")
+        (for item in {mymusic.playing}
+          (track :item item))))))
+
+;; --------------------------------------------------------------------------
+;; fenêtre
+;; --------------------------------------------------------------------------
+
+(defwindow mymusic-panel
+  :monitor 0
+  :geometry (geometry :x "40px"
+                      :y "60px"
+                      :width "290px"
+                      :anchor "top right")
+  ;; "bg" pose le panneau sur la couche du fond d'écran. Sous Plasma,
+  ;; plasmashell occupe déjà cette couche en plein écran : si rien
+  ;; n'apparaît, passer à "bt".
+  :stacking "bg"
+  :exclusive false
+  :focusable false
+  (panel))

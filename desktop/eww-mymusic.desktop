@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=mymusic panel
+Comment=Panneau de supervision mymusic sur le bureau
+Exec=sh -c "sleep 8; exec eww open mymusic-panel"
+Terminal=false
+X-GNOME-Autostart-enabled=true

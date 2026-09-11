@@ -335,8 +335,10 @@ def fetch_services():
         url = "http://localhost:{}/".format(CONFIG["upload_server_port"])
         with urllib.request.urlopen(url, timeout=3) as resp:
             upload["http"] = resp.status < 500
-    except Exception:
+    except urllib.error.HTTPError:
         # A 404 still proves the socket answers; only a connection error is fatal.
+        upload["http"] = True
+    except Exception:
         upload["http"] = False
 
     try:

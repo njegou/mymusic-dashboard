@@ -4,3 +4,6 @@ backend/dashboard_config.json
 __pycache__/
 *.pyc
 .DS_Store
+
+# Jeton du panneau de bureau
+desktop/panel.env

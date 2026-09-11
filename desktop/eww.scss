@@ -1,0 +1,135 @@
+// mymusic — panneau de bureau
+// Palette reprise du mode sombre du tableau de bord.
+
+$ink:    #e4e6e3;
+$muted:  #9aa0a6;
+$accent: #8fb4d6;
+$ok:     #6cc295;
+$warn:   #d6a648;
+$bad:    #e2796a;
+
+$backdrop: rgba(14, 16, 19, 0.62);
+$rule:     rgba(228, 230, 227, 0.12);
+
+* {
+  all: unset;
+  font-family: "JetBrains Mono", "SF Mono", monospace;
+}
+
+.panel {
+  background-color: $backdrop;
+  border: 1px solid $rule;
+  border-radius: 3px;
+  padding: 14px 16px;
+  color: $ink;
+  font-size: 12px;
+}
+
+.title {
+  color: $accent;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: $accent;
+  margin-bottom: 5px;
+}
+
+.group {
+  margin-bottom: 12px;
+}
+
+// ---------------------------------------------------------------- services
+
+.row {
+  margin-bottom: 3px;
+}
+
+.dot {
+  font-size: 9px;
+  margin-right: 7px;
+
+  &.ok   { color: $ok; }
+  &.warn { color: $warn; }
+  &.bad  { color: $bad; }
+}
+
+.row-label  { color: $muted; }
+.row-detail { color: $ink; }
+
+// ------------------------------------------------------------------ meters
+
+.meter {
+  margin-bottom: 9px;
+}
+
+.meter-label { color: $muted; }
+
+.meter-value {
+  color: $ink;
+  font-weight: 600;
+}
+
+.gauge {
+  margin: 4px 0 3px 0;
+
+  trough {
+    background-color: rgba(228, 230, 227, 0.14);
+    border-radius: 0;
+    min-height: 3px;
+  }
+
+  progress {
+    border-radius: 0;
+    min-height: 3px;
+  }
+
+  &.ok   progress { background-color: $ok; }
+  &.warn progress { background-color: $warn; }
+  &.bad  progress { background-color: $bad; }
+}
+
+.meter-detail {
+  color: $muted;
+  font-size: 10px;
+}
+
+// ----------------------------------------------------------------- library
+
+.figure {
+  color: $ink;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.figure-meta {
+  color: $muted;
+  margin-top: 2px;
+}
+
+.scanning {
+  color: $warn;
+  margin-top: 4px;
+}
+
+// ------------------------------------------------------------ now playing
+
+.track {
+  margin-bottom: 6px;
+}
+
+.track-title { color: $ink; }
+
+.track-meta {
+  color: $muted;
+  font-size: 10px;
+  margin-top: 1px;
+}
+
+// -------------------------------------------------------------- unreachable
+
+.offline-text {
+  color: $bad;
+}
