@@ -1,0 +1,6 @@
+# Config avec le mot de passe Navidrome et le jeton de supervision
+backend/dashboard_config.json
+*.log
+__pycache__/
+*.pyc
+.DS_Store

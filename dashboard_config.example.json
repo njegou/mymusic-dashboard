@@ -1,0 +1,12 @@
+{
+  "navidrome_url": "http://localhost:4533",
+  "navidrome_user": "Nicolas",
+  "navidrome_password": "REMPLACER_PAR_LE_MOT_DE_PASSE_NAVIDROME",
+  "music_path": "/volume1/music/mymusic",
+  "volume_path": "/volume1",
+  "navidrome_log": "/volume1/homes/Nicolas/navidrome/navidrome.log",
+  "upload_server_log": "/volume1/homes/Nicolas/upload_server.log",
+  "upload_server_port": 5051,
+  "listen_port": 5053,
+  "dashboard_token": "REMPLACER_PAR_UN_TOKEN_ALEATOIRE_LONG"
+}

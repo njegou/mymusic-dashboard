@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>mymusic · supervision</title>
+<link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+
+<div class="gate" id="gate" hidden>
+  <div class="gate-panel">
+    <h1>mymusic</h1>
+    <p>Colle le jeton de supervision pour afficher les données du serveur.</p>
+    <label for="tokenInput">Jeton</label>
+    <input id="tokenInput" type="password" autocomplete="off" spellcheck="false">
+    <button id="tokenSubmit" type="button">Ouvrir le tableau de bord</button>
+    <p class="gate-error" id="gateError" hidden>Jeton refusé par le serveur.</p>
+  </div>
+</div>
+
+<div class="app" id="app" hidden>
+
+  <header class="masthead">
+    <div class="masthead-left">
+      <h1>mymusic</h1>
+      <span class="masthead-sub">supervision du serveur</span>
+    </div>
+    <div class="masthead-right">
+      <span class="beacon" id="beacon" data-state="idle"></span>
+      <span class="stamp" id="stamp">connexion…</span>
+      <button class="ghost-btn" id="forget" type="button">Oublier le jeton</button>
+    </div>
+  </header>
+
+  <p class="banner" id="banner" hidden></p>
+
+  <section class="strip" aria-label="Services">
+    <div class="strip-cell" id="svcNavidrome">
+      <span class="svc-name">Navidrome</span>
+      <span class="svc-state">…</span>
+      <span class="svc-meta"></span>
+    </div>
+    <div class="strip-cell" id="svcUpload">
+      <span class="svc-name">Serveur d'import</span>
+      <span class="svc-state">…</span>
+      <span class="svc-meta"></span>
+    </div>
+    <div class="strip-cell" id="svcDashboard">
+      <span class="svc-name">API supervision</span>
+      <span class="svc-state">…</span>
+      <span class="svc-meta"></span>
+    </div>
+    <div class="strip-cell" id="svcScan">
+      <span class="svc-name">Analyse de bibliothèque</span>
+      <span class="svc-state">…</span>
+      <span class="svc-meta"></span>
+    </div>
+  </section>
+
+  <section class="band" aria-label="Ressources machine">
+    <div class="meter" id="meterVolume">
+      <div class="meter-head">
+        <span class="meter-label">Volume /volume1</span>
+        <span class="meter-value">—</span>
+      </div>
+      <div class="gauge"><i style="width:0%"></i></div>
+      <span class="meter-foot">—</span>
+    </div>
+    <div class="meter" id="meterMemory">
+      <div class="meter-head">
+        <span class="meter-label">Mémoire vive</span>
+        <span class="meter-value">—</span>
+      </div>
+      <div class="gauge"><i style="width:0%"></i></div>
+      <span class="meter-foot">—</span>
+    </div>
+    <div class="meter" id="meterMusic">
+      <div class="meter-head">
+        <span class="meter-label">Dossier musique</span>
+        <span class="meter-value">—</span>
+      </div>
+      <div class="gauge"><i style="width:0%"></i></div>
+      <span class="meter-foot">—</span>
+    </div>
+    <div class="meter" id="meterLoad">
+      <div class="meter-head">
+        <span class="meter-label">Charge processeur</span>
+        <span class="meter-value">—</span>
+      </div>
+      <div class="gauge"><i style="width:0%"></i></div>
+      <span class="meter-foot">—</span>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-playing">
+    <h2 id="h-playing">En écoute</h2>
+    <div id="nowPlaying" class="playing"></div>
+  </section>
+
+  <section class="block" aria-labelledby="h-library">
+    <h2 id="h-library">Bibliothèque</h2>
+    <div class="figures" id="figures"></div>
+    <div class="formats" id="formats"></div>
+  </section>
+
+  <div class="split">
+    <section class="block" aria-labelledby="h-users">
+      <h2 id="h-users">Comptes <span class="count" id="usersCount"></span></h2>
+      <table class="grid" id="usersTable">
+        <thead>
+          <tr><th>Utilisateur</th><th>Adresse</th><th>Droits</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section class="block" aria-labelledby="h-recent">
+      <h2 id="h-recent">Derniers albums ajoutés</h2>
+      <ol class="recent" id="recentAlbums"></ol>
+    </section>
+  </div>
+
+  <section class="block" aria-labelledby="h-playlists">
+    <h2 id="h-playlists">Playlists <span class="count" id="playlistsCount"></span></h2>
+    <table class="grid" id="playlistsTable">
+      <thead>
+        <tr><th>Nom</th><th>Propriétaire</th><th class="num">Morceaux</th><th class="num">Durée</th><th>Modifiée</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <div class="split">
+    <section class="block" aria-labelledby="h-lognav">
+      <h2 id="h-lognav">Journal Navidrome <span class="count" id="logErrors"></span></h2>
+      <pre class="log" id="logNavidrome"></pre>
+    </section>
+    <section class="block" aria-labelledby="h-logup">
+      <h2 id="h-logup">Journal serveur d'import</h2>
+      <pre class="log" id="logUpload"></pre>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <span id="footerNote">—</span>
+  </footer>
+
+</div>
+
+<script src="dashboard.js?v=1"></script>
+</body>
+</html>
