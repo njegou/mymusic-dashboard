@@ -5,7 +5,7 @@
 
 (defpoll mymusic
   :interval "30s"
-  :initial `{"ok":false,"error":"chargement…","services":[],"meters":[],"library":null,"playing":[]}`
+  :initial `{"ok":false,"error":"chargement…","services":[],"meters":[],"has_library":false,"library":{"tracks":"—","albums":"—","artists":"—","scanning":false},"playing":[],"playing_count":0}`
   `python3 ~/.config/eww/mymusic/panel.py --json`)
 
 ;; --------------------------------------------------------------------------
@@ -58,16 +58,16 @@
           (meter :item item)))
 
       (box :class "group" :orientation "v" :space-evenly false
-           :visible {mymusic.library != null}
+           :visible {mymusic.has_library}
         (label :class "figure" :xalign 0
-               :text "${mymusic.library?.tracks ?: "—"} morceaux")
+               :text "${mymusic.library.tracks} morceaux")
         (label :class "figure-meta" :xalign 0
-               :text "${mymusic.library?.albums ?: "—"} albums · ${mymusic.library?.artists ?: "—"} artistes")
+               :text "${mymusic.library.albums} albums · ${mymusic.library.artists} artistes")
         (label :class "scanning" :xalign 0 :text "analyse en cours"
-               :visible {mymusic.library?.scanning ?: false}))
+               :visible {mymusic.library.scanning}))
 
       (box :class "group" :orientation "v" :space-evenly false
-           :visible {arraylength(mymusic.playing) > 0}
+           :visible {mymusic.playing_count > 0}
         (label :class "subtitle" :xalign 0 :text "en écoute")
         (for item in {mymusic.playing}
           (track :item item))))))
@@ -85,7 +85,7 @@
   ;; "bg" pose le panneau sur la couche du fond d'écran. Sous Plasma,
   ;; plasmashell occupe déjà cette couche en plein écran : si rien
   ;; n'apparaît, passer à "bt".
-  :stacking "bg"
+  :stacking "ov"
   :exclusive false
   :focusable false
   (panel))

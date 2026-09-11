@@ -124,8 +124,13 @@ def build_view(data):
     library = data.get("library") or {}
     playing = data.get("now_playing")
 
+    # yuck (eww 0.5) has no null literal and no optional chaining, so every
+    # field is always present and the branching is expressed as booleans.
     view = {"ok": True, "error": "", "services": [], "meters": [],
-            "library": None, "playing": []}
+            "has_library": False,
+            "library": {"tracks": "—", "albums": "—", "artists": "—",
+                        "scanning": False},
+            "playing": [], "playing_count": 0}
 
     for key, label in (("navidrome", "Navidrome"), ("upload_server", "Import")):
         svc = services.get(key) or {}
@@ -173,6 +178,7 @@ def build_view(data):
         })
 
     if "tracks" in library:
+        view["has_library"] = True
         view["library"] = {
             "tracks": human_count(library.get("tracks")),
             "albums": human_count(library.get("albums")),
@@ -187,13 +193,17 @@ def build_view(data):
                 "artist": truncate(entry.get("artist"), 22),
                 "user": truncate(entry.get("username"), 10),
             })
+    view["playing_count"] = len(view["playing"])
 
     return view
 
 
 def failed_view(message):
     return {"ok": False, "error": message, "services": [], "meters": [],
-            "library": None, "playing": []}
+            "has_library": False,
+            "library": {"tracks": "—", "albums": "—", "artists": "—",
+                        "scanning": False},
+            "playing": [], "playing_count": 0}
 
 
 # ---------------------------------------------------------------------------
@@ -222,7 +232,7 @@ def render_text(view):
         out.append("${color2}" + meter["detail"])
 
     lib = view["library"]
-    if lib:
+    if view["has_library"]:
         out.append("")
         out.append("${{color0}}{} morceaux".format(lib["tracks"]))
         out.append("${{color2}}{} albums · {} artistes".format(lib["albums"], lib["artists"]))
