@@ -5,7 +5,7 @@
 
 /* Point this at your tunnel hostname. Falls back to the NAS on the LAN. */
 var API_BASE = 'https://dashboard.mymusic-nj.com';
-var API_FALLBACK = 'http://192.168.1.7:5053';
+var API_FALLBACK = 'http://100.69.220.88:5053';
 
 var REFRESH_MS = 15000;
 var STORAGE_KEY = 'mymusic.dashboard.token';
